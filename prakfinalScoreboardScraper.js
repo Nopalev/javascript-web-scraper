@@ -27,7 +27,7 @@ const getPrakfinalList = async () => {
 
    // extracting the table data
    const prakfinalDataTable = parsedPrakfinalData("table.Table_table__kzKHA")[0]
-      .children[1].children;
+      .children[1].children; // the HTML Tag and its class of the part that i scrap
 
    prakfinalDataTable.forEach((row) => {
       // extracting `td` tags
@@ -37,7 +37,7 @@ const getPrakfinalList = async () => {
         const columns = row.children.filter((column) => column.name === "td");
 
         // extracting team
-        const teamColumn = columns[1];
+        const teamColumn = columns[1]; // the column that contains team's name
         if(teamColumn){
             team = teamColumn.children[0];
             if(team){
@@ -48,6 +48,9 @@ const getPrakfinalList = async () => {
                      team = teamColumn.children[0].children[1].children[0].children[0];
                      if(team){
                         team = teamColumn.children[0].children[1].children[0].children[0].data;
+                        // to see the structure of the web that i scrap, go to the web and inspect element.
+                        // track from HTML tag td with class Table_scoreTd__0TOkn Table_teamNameTd__6KJk8
+                        // (that contains the team informations) until you reach team's name
                      }
                    }
                 }
@@ -56,7 +59,7 @@ const getPrakfinalList = async () => {
         problems[0] = team;
 
         // extracting problems
-        for(let i = 3; i<=26; i++){ // note that there are 24 problems form columns 3 to 26
+        for(let i = 3; i<=26; i++){ // note that there are 24 problems from columns 3 to 26
          const problemColumn = columns[i];
          if(problemColumn){
             subProblem = problemColumn.children[0];
@@ -77,7 +80,7 @@ const getPrakfinalList = async () => {
       }
    });
    //console.log(scoreboard); // used to check scraping result
-   scoreboard.forEach(function(rowArray) { // formatting scrap result into 
+   scoreboard.forEach(function(rowArray) { // formatting scrap result into csv formatted string
       let row = rowArray.join(",");
       csvContent += row + "\r\n";
   });
